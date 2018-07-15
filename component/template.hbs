@@ -4,31 +4,107 @@
     <div class="over-hr mb-20"><span>{{driverOptionsTitle}}</span></div>
 
     {{!-- An example input option --}}
-    <div class="row box mt-20">
-      <h4>Instance Options</h4>
+    {{#accordion-list-item 
+      title="API Access"
+      detail=""
+      expandAll=expandAll
+      expand=(action expandFn) 
+      expandOnInit=true 
+    }}
       <div class="row">
-        <div class="col span-2 col-inline">
-          <label>CPUs</label>
+        <div class="col span-6">
+          <label class="acc-label">Organization ID{{field-required}}</label>
+          {{input type="text" class="form-control"  value=config.organization}}
         </div>
-
-        <div class="col span-1">
-          {{config.cpuCount}}
-        </div>
-        <div class="col span-3">
-          {{input-slider value=config.cpuCount valueMin=1 valueMax=32}}
-        </div>
-
-        <div class="col span-2 col-inline">
-          <label>Memory Size</label>
-        </div>
-        <div class="col span-4">
-          <div class="input-group">
-            {{input-integer min=1 value=config.memorySize classNames="form-control"}}
-            <div class="input-group-addon bg-default">MB</div>
-          </div>
+      
+        <div class="col span-6">
+          <label class="acc-label">API Token{{field-required}}</label>
+          {{input type="password" class="form-control" value=config.token }}
         </div>
       </div>
-    </div>
+    {{/accordion-list-item}}
+
+  {{#accordion-list-item 
+      title="Instance"
+      detail=""
+      expandAll=expandAll
+      expand=(action expandFn) 
+      expandOnInit=true 
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">Region</label>
+          {{new-select class="form-control" content=regions optionLabelPath='location' optionValuePath='id' value=config.region}}
+        </div>
+
+        <div class="col span-6">
+          <label class="acc-label">Name</label>
+          {{input input type="text" class="form-control" value=config.name}}
+        </div>
+      
+      </div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">Type{{field-required}}</label>
+          {{input type="text" class="form-control" placeholder="START1-XS" value=config.commercialType
+          }}
+        </div>
+
+        <div class="col span-6">
+          <label class="acc-label">Image{{field-required}}</label>
+          {{input type="text" class="form-control" placeholder="ubuntu-xenial" value=config.image }}
+        </div>
+    
+      </div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">Additional Volumes</label>
+          {{input type="text" class="form-control" placeholder="50G" value=config.volumes
+          }}
+        </div>
+
+        <div class="col span-6">
+          <label class="acc-label">Bootscript</label>
+           {{input type="text" class="form-control" placeholder="docker" value=config.bootscript }}
+        </div>
+      </div>
+    {{/accordion-list-item}}  
+  
+    {{#accordion-list-item 
+      title="Network"
+      detail=""
+      expandAll=expandAll
+      expand=(action expandFn) 
+      expandOnInit=true 
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">IP Address</label>
+           {{input type="text" class="form-control" value=config.ip
+          }}
+        </div>
+      
+        <div class="col span-6">
+          <label class="acc-label">IPv6</label>
+           {{input type="checkbox" checked=config.ipv6 }}
+        </div>
+      </div>
+    {{/accordion-list-item}}
+
+    {{#accordion-list-item 
+      title="Debug"
+      detail=""
+      expandAll=expandAll
+      expand=(action expandFn) 
+      expandOnInit=false 
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">Enable Debugging</label>
+          {{input type="checkbox" checked=config.debug }}
+        </div>
+      </div>
+    {{/accordion-list-item}}
 
     {{!-- This following contains the Name, Labels and Engine Options fields --}}
     <div class="over-hr"><span>{{templateOptionsTitle}}</span></div>

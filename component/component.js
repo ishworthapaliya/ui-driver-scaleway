@@ -12,6 +12,7 @@ define('shared/components/node-driver/driver-%%DRIVERNAME%%/component', ['export
   var get = Ember.get;
   var set = Ember.set;
   var alias = Ember.computed.alias;
+  var observer = Ember.observer;
 
 /* v----- Do not change anything between here
  *       (the DRIVERNAME placeholder will be automatically replaced during build) */
@@ -21,12 +22,31 @@ define('shared/components/node-driver/driver-%%DRIVERNAME%%/component', ['export
     config: alias('model.%%DRIVERNAME%%Config'),
 /* ^--- And here */
 
+    regions: [{
+        id: 'par1',
+        location: 'Paris (par1)'
+      },
+      {
+        id: 'ams1',
+        location: 'Amsterdam (ams1)'
+      }
+    ],
+
     // Write your component here, starting with setting 'model' to a machine with your config populated
     bootstrap: function() {
       let config = get(this, 'globalStore').createRecord({
         type: '%%DRIVERNAME%%Config',
-        cpuCount: 2,
-        memorySize: 2048,
+        commercialType: '',
+        region: '',
+        name: '',
+        debug: false,
+        image: '',
+        ip: '',
+        ipv6: false,
+        organization: '',
+        token: '',
+        volumes: '',
+        bootscript: ''
       });
 
       set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -38,15 +58,24 @@ define('shared/components/node-driver/driver-%%DRIVERNAME%%/component', ['export
       this._super();
       var errors = get(this, 'errors')||[];
       if ( !get(this, 'model.name') ) {
-        errors.push('Name is required');
+        errors.push('Name is required!');
       }
 
       // Add more specific errors
+      if (!get(this, 'config.organization') ) {
+        errors.push('Organization ID is required!');
+      }
 
-      // Check something and add an error entry if it fails:
-      if ( parseInt(get(this, 'config.memorySize'),10) < 1024 )
-      {
-        errors.push('Memory Size must be at least 1024 MB');
+      if (!get(this, 'config.token') ) {
+        errors.push('API Token is required!');
+      }
+
+      if (!get(this, 'config.commercialType') ) {
+        errors.push('Instance Type is required!');
+      }
+
+      if (!get(this, 'config.image') ) {
+        errors.push('Image is required!');
       }
 
       // Set the array of errors for display,
@@ -62,7 +91,6 @@ define('shared/components/node-driver/driver-%%DRIVERNAME%%/component', ['export
         return true;
       }
     },
-
-    // Any computed properties or custom logic can go here
+    //Any computed properties or custom logic can go here
   });
 });
