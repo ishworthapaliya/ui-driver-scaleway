@@ -1,12 +1,12 @@
 {
-  "name": "ui-driver-skel",
-  "version": "0.0.2",
+  "name": "ui-driver-scaleway",
+  "version": "0.0.3",
   "description": "Skeleton Rancher UI driver for custom docker-machine drivers",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rancher/ui-driver-skel.git"
+    "url": "git+https://github.com/debovema/ui-driver-scaleway.git"
   },
-  "author": "Rancher Labs, Inc.",
+  "author": "Mathieu Debove",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/rancher/rancher/issues"
@@ -17,7 +17,7 @@
     "build": "./node_modules/.bin/gulp build",
     "upload": "./scripts/upload"
   },
-  "homepage": "https://github.com/rancher/ui-driver-skel#readme",
+  "homepage": "https://github.com/debovema/ui-driver-scaleway#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-add-module-exports": "^0.3.2",

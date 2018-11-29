@@ -1,4 +1,4 @@
-define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node-driver'], function (exports, _nodeDriver) {
+define('nodes/components/driver-scaleway/component', ['exports', 'shared/mixins/node-driver'], function (exports, _nodeDriver) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -16,14 +16,14 @@ define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node
   var defaultRadix = 10;
   var defaultBase = 1024;
   exports.default = Ember.Component.extend(_nodeDriver.default, {
-    driverName: 'skel',
-    config: alias('model.skelConfig'),
+    driverName: 'scaleway',
+    config: alias('model.scalewayConfig'),
     app: service(),
 
     init: function init() {
       var decodedLayout = window.atob(LAYOUT);
       var template = Ember.HTMLBars.compile(decodedLayout, {
-        moduleName: 'nodes/components/driver-skel/template'
+        moduleName: 'nodes/components/driver-scaleway/template'
       });
       set(this, 'layout', template);
 
@@ -41,7 +41,7 @@ define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node
 
     bootstrap: function bootstrap() {
       var config = get(this, 'globalStore').createRecord({
-        type: 'skelConfig',
+        type: 'scalewayConfig',
         commercialType: '',
         region: '',
         name: '',
@@ -55,7 +55,7 @@ define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node
         bootscript: ''
       });
 
-      set(this, 'model.skelConfig', config);
+      set(this, 'model.scalewayConfig', config);
     },
 
     validate: function validate() {
@@ -91,7 +91,7 @@ define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node
     }
   });
 });;
-define('ui/components/driver-skel/component', ['exports', 'nodes/components/driver-skel/component'], function (exports, _component) {
+define('ui/components/driver-scaleway/component', ['exports', 'nodes/components/driver-scaleway/component'], function (exports, _component) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
