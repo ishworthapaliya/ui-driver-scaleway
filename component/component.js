@@ -109,6 +109,5 @@ export default Ember.Component.extend(NodeDriver, {
         return true;
       }
     },
-    //Any computed properties or custom logic can go here
-  });
+  //Any computed properties or custom logic can go here
 });

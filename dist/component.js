@@ -1,59 +1,47 @@
-/*!!!!!!!!!!!Do not change anything between here (the DRIVERNAME placeholder will be automatically replaced at buildtime)!!!!!!!!!!!*/
-import NodeDriver from 'shared/mixins/node-driver';
- // do not remove LAYOUT, it is replaced at build time with a base64 representation of the template of the hbs template
+define('nodes/components/driver-skel/component', ['exports', 'shared/mixins/node-driver'], function (exports, _nodeDriver) {
+  'use strict';
 
-// we do this to avoid converting template to a js file that returns a string and the cors issues that would come along with that
-const LAYOUT;
-/*!!!!!!!!!!!DO NOT CHANGE END!!!!!!!!!!!*/
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 
+  var LAYOUT = "PHNlY3Rpb24gY2xhc3M9Imhvcml6b250YWwtZm9ybSI+CiAge3sjYWNjb3JkaW9uLWxpc3Qgc2hvd0V4cGFuZEFsbD1mYWxzZSBhcyB8IGFsIGV4cGFuZEZuIHx9fQogICAge3shLS0gVGhpcyBsaW5lIHNob3dzIHRoZSBkcml2ZXIgdGl0bGUgd2hpY2ggeW91IGRvbid0IGhhdmUgdG8gY2hhbmdlIGl0IC0tfX0KICAgIDxkaXYgY2xhc3M9Im92ZXItaHIgbWItMjAiPjxzcGFuPnt7ZHJpdmVyT3B0aW9uc1RpdGxlfX08L3NwYW4+PC9kaXY+CgogICAge3shLS0gQW4gZXhhbXBsZSBpbnB1dCBvcHRpb24gLS19fQogICAge3sjYWNjb3JkaW9uLWxpc3QtaXRlbSAKICAgICAgdGl0bGU9IkFQSSBBY2Nlc3MiCiAgICAgIGRldGFpbD0iIgogICAgICBleHBhbmRBbGw9ZXhwYW5kQWxsCiAgICAgIGV4cGFuZD0oYWN0aW9uIGV4cGFuZEZuKSAKICAgICAgZXhwYW5kT25Jbml0PXRydWUgCiAgICB9fQogICAgICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgICAgIDxkaXYgY2xhc3M9ImNvbCBzcGFuLTYiPgogICAgICAgICAgPGxhYmVsIGNsYXNzPSJhY2MtbGFiZWwiPk9yZ2FuaXphdGlvbiBJRHt7ZmllbGQtcmVxdWlyZWR9fTwvbGFiZWw+CiAgICAgICAgICB7e2lucHV0IHR5cGU9InRleHQiIGNsYXNzPSJmb3JtLWNvbnRyb2wiICB2YWx1ZT1jb25maWcub3JnYW5pemF0aW9ufX0KICAgICAgICA8L2Rpdj4KICAgICAgCiAgICAgICAgPGRpdiBjbGFzcz0iY29sIHNwYW4tNiI+CiAgICAgICAgICA8bGFiZWwgY2xhc3M9ImFjYy1sYWJlbCI+QVBJIFRva2Vue3tmaWVsZC1yZXF1aXJlZH19PC9sYWJlbD4KICAgICAgICAgIHt7aW5wdXQgdHlwZT0icGFzc3dvcmQiIGNsYXNzPSJmb3JtLWNvbnRyb2wiIHZhbHVlPWNvbmZpZy50b2tlbiB9fQogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgIHt7L2FjY29yZGlvbi1saXN0LWl0ZW19fQoKICB7eyNhY2NvcmRpb24tbGlzdC1pdGVtIAogICAgICB0aXRsZT0iSW5zdGFuY2UiCiAgICAgIGRldGFpbD0iIgogICAgICBleHBhbmRBbGw9ZXhwYW5kQWxsCiAgICAgIGV4cGFuZD0oYWN0aW9uIGV4cGFuZEZuKSAKICAgICAgZXhwYW5kT25Jbml0PXRydWUgCiAgICB9fQogICAgICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgICAgIDxkaXYgY2xhc3M9ImNvbCBzcGFuLTYiPgogICAgICAgICAgPGxhYmVsIGNsYXNzPSJhY2MtbGFiZWwiPlJlZ2lvbjwvbGFiZWw+CiAgICAgICAgICB7e25ldy1zZWxlY3QgY2xhc3M9ImZvcm0tY29udHJvbCIgY29udGVudD1yZWdpb25zIG9wdGlvbkxhYmVsUGF0aD0nbG9jYXRpb24nIG9wdGlvblZhbHVlUGF0aD0naWQnIHZhbHVlPWNvbmZpZy5yZWdpb259fQogICAgICAgIDwvZGl2PgoKICAgICAgICA8ZGl2IGNsYXNzPSJjb2wgc3Bhbi02Ij4KICAgICAgICAgIDxsYWJlbCBjbGFzcz0iYWNjLWxhYmVsIj5OYW1lPC9sYWJlbD4KICAgICAgICAgIHt7aW5wdXQgaW5wdXQgdHlwZT0idGV4dCIgY2xhc3M9ImZvcm0tY29udHJvbCIgdmFsdWU9Y29uZmlnLm5hbWV9fQogICAgICAgIDwvZGl2PgogICAgICAKICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InJvdyI+CiAgICAgICAgPGRpdiBjbGFzcz0iY29sIHNwYW4tNiI+CiAgICAgICAgICA8bGFiZWwgY2xhc3M9ImFjYy1sYWJlbCI+VHlwZXt7ZmllbGQtcmVxdWlyZWR9fTwvbGFiZWw+CiAgICAgICAgICB7e2lucHV0IHR5cGU9InRleHQiIGNsYXNzPSJmb3JtLWNvbnRyb2wiIHBsYWNlaG9sZGVyPSJTVEFSVDEtWFMiIHZhbHVlPWNvbmZpZy5jb21tZXJjaWFsVHlwZQogICAgICAgICAgfX0KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGRpdiBjbGFzcz0iY29sIHNwYW4tNiI+CiAgICAgICAgICA8bGFiZWwgY2xhc3M9ImFjYy1sYWJlbCI+SW1hZ2V7e2ZpZWxkLXJlcXVpcmVkfX08L2xhYmVsPgogICAgICAgICAge3tpbnB1dCB0eXBlPSJ0ZXh0IiBjbGFzcz0iZm9ybS1jb250cm9sIiBwbGFjZWhvbGRlcj0idWJ1bnR1LXhlbmlhbCIgdmFsdWU9Y29uZmlnLmltYWdlIH19CiAgICAgICAgPC9kaXY+CiAgICAKICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InJvdyI+CiAgICAgICAgPGRpdiBjbGFzcz0iY29sIHNwYW4tNiI+CiAgICAgICAgICA8bGFiZWwgY2xhc3M9ImFjYy1sYWJlbCI+QWRkaXRpb25hbCBWb2x1bWVzPC9sYWJlbD4KICAgICAgICAgIHt7aW5wdXQgdHlwZT0idGV4dCIgY2xhc3M9ImZvcm0tY29udHJvbCIgcGxhY2Vob2xkZXI9IjUwRyIgdmFsdWU9Y29uZmlnLnZvbHVtZXMKICAgICAgICAgIH19CiAgICAgICAgPC9kaXY+CgogICAgICAgIDxkaXYgY2xhc3M9ImNvbCBzcGFuLTYiPgogICAgICAgICAgPGxhYmVsIGNsYXNzPSJhY2MtbGFiZWwiPkJvb3RzY3JpcHQ8L2xhYmVsPgogICAgICAgICAgIHt7aW5wdXQgdHlwZT0idGV4dCIgY2xhc3M9ImZvcm0tY29udHJvbCIgcGxhY2Vob2xkZXI9ImRvY2tlciIgdmFsdWU9Y29uZmlnLmJvb3RzY3JpcHQgfX0KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICB7ey9hY2NvcmRpb24tbGlzdC1pdGVtfX0gIAogIAogICAge3sjYWNjb3JkaW9uLWxpc3QtaXRlbSAKICAgICAgdGl0bGU9Ik5ldHdvcmsiCiAgICAgIGRldGFpbD0iIgogICAgICBleHBhbmRBbGw9ZXhwYW5kQWxsCiAgICAgIGV4cGFuZD0oYWN0aW9uIGV4cGFuZEZuKSAKICAgICAgZXhwYW5kT25Jbml0PXRydWUgCiAgICB9fQogICAgICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgICAgIDxkaXYgY2xhc3M9ImNvbCBzcGFuLTYiPgogICAgICAgICAgPGxhYmVsIGNsYXNzPSJhY2MtbGFiZWwiPklQIEFkZHJlc3M8L2xhYmVsPgogICAgICAgICAgIHt7aW5wdXQgdHlwZT0idGV4dCIgY2xhc3M9ImZvcm0tY29udHJvbCIgdmFsdWU9Y29uZmlnLmlwCiAgICAgICAgICB9fQogICAgICAgIDwvZGl2PgogICAgICAKICAgICAgICA8ZGl2IGNsYXNzPSJjb2wgc3Bhbi02Ij4KICAgICAgICAgIDxsYWJlbCBjbGFzcz0iYWNjLWxhYmVsIj5JUHY2PC9sYWJlbD4KICAgICAgICAgICB7e2lucHV0IHR5cGU9ImNoZWNrYm94IiBjaGVja2VkPWNvbmZpZy5pcHY2IH19CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAge3svYWNjb3JkaW9uLWxpc3QtaXRlbX19CgogICAge3sjYWNjb3JkaW9uLWxpc3QtaXRlbSAKICAgICAgdGl0bGU9IkRlYnVnIgogICAgICBkZXRhaWw9IiIKICAgICAgZXhwYW5kQWxsPWV4cGFuZEFsbAogICAgICBleHBhbmQ9KGFjdGlvbiBleHBhbmRGbikgCiAgICAgIGV4cGFuZE9uSW5pdD1mYWxzZSAKICAgIH19CiAgICAgIDxkaXYgY2xhc3M9InJvdyI+CiAgICAgICAgPGRpdiBjbGFzcz0iY29sIHNwYW4tNiI+CiAgICAgICAgICA8bGFiZWwgY2xhc3M9ImFjYy1sYWJlbCI+RW5hYmxlIERlYnVnZ2luZzwvbGFiZWw+CiAgICAgICAgICB7e2lucHV0IHR5cGU9ImNoZWNrYm94IiBjaGVja2VkPWNvbmZpZy5kZWJ1ZyB9fQogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgIHt7L2FjY29yZGlvbi1saXN0LWl0ZW19fQoKICAgIHt7IS0tIFRoaXMgZm9sbG93aW5nIGNvbnRhaW5zIHRoZSBOYW1lLCBMYWJlbHMgYW5kIEVuZ2luZSBPcHRpb25zIGZpZWxkcyAtLX19CiAgICA8ZGl2IGNsYXNzPSJvdmVyLWhyIj48c3Bhbj57e3RlbXBsYXRlT3B0aW9uc1RpdGxlfX08L3NwYW4+PC9kaXY+CgogICAge3tmb3JtLW5hbWUtZGVzY3JpcHRpb24KICAgICAgbW9kZWw9bW9kZWwKICAgICAgbmFtZVJlcXVpcmVkPXRydWUKICAgIH19CgogICAge3tmb3JtLXVzZXItbGFiZWxzCiAgICAgIGluaXRpYWxMYWJlbHM9bGFiZWxSZXNvdXJjZS5sYWJlbHMKICAgICAgc2V0TGFiZWxzPShhY3Rpb24gJ3NldExhYmVscycpCiAgICAgIGV4cGFuZEFsbD1leHBhbmRBbGwKICAgICAgZXhwYW5kPShhY3Rpb24gZXhwYW5kRm4pCiAgICB9fQoKICAgIHt7Zm9ybS1lbmdpbmUtb3B0cwogICAgICBtYWNoaW5lPW1vZGVsCiAgICAgIHNob3dFbmdpbmVVcmw9c2hvd0VuZ2luZVVybAogICAgfX0KICB7ey9hY2NvcmRpb24tbGlzdH19CgogIHt7IS0tIFRoaXMgY29tcG9uZW50IHNob3dzIGVycm9ycyBwcm9kdWNlZCBieSB2YWxpZGF0ZSgpIGluIHRoZSBjb21wb25lbnQgLS19fQogIHt7dG9wLWVycm9ycyBlcnJvcnM9ZXJyb3JzfX0KCiAge3shLS0gVGhpcyBjb21wb25lbnQgc2hvd3MgdGhlIENyZWF0ZSBhbmQgQ2FuY2VsIGJ1dHRvbnMgLS19fQogIHt7c2F2ZS1jYW5jZWwgc2F2ZT0ic2F2ZSIgY2FuY2VsPSJjYW5jZWwifX0KPC9zZWN0aW9uPgo=";
 
-/*!!!!!!!!!!!GLOBAL CONST START!!!!!!!!!!!*/
-// EMBER API Access - if you need access to any of the Ember API's add them here in the same manner rather then import them via modules, since the dependencies exist in rancher we dont want to expor the modules in the amd def
-const computed     = Ember.computed;
-const get          = Ember.get;
-const set          = Ember.set;
-const alias        = Ember.computed.alias;
-const service      = Ember.inject.service;
+  var computed = Ember.computed;
+  var get = Ember.get;
+  var set = Ember.set;
+  var alias = Ember.computed.alias;
+  var service = Ember.inject.service;
 
-const defaultRadix = 10;
-const defaultBase  = 1024;
-/*!!!!!!!!!!!GLOBAL CONST END!!!!!!!!!!!*/
+  var defaultRadix = 10;
+  var defaultBase = 1024;
+  exports.default = Ember.Component.extend(_nodeDriver.default, {
+    driverName: 'skel',
+    config: alias('model.skelConfig'),
+    app: service(),
 
+    init: function init() {
+      var decodedLayout = window.atob(LAYOUT);
+      var template = Ember.HTMLBars.compile(decodedLayout, {
+        moduleName: 'nodes/components/driver-skel/template'
+      });
+      set(this, 'layout', template);
 
+      this._super.apply(this, arguments);
+    },
 
-/*!!!!!!!!!!!DO NOT CHANGE START!!!!!!!!!!!*/
-export default Ember.Component.extend(NodeDriver, {
-  driverName: 'scaleway',
-  config:     alias('model.scalewayConfig'),
-  app:        service(),
-
-  init() {
-    // This does on the fly template compiling, if you mess with this :cry:
-    const decodedLayout = window.atob(LAYOUT);
-    const template      = Ember.HTMLBars.compile(decodedLayout, {
-      moduleName: 'nodes/components/driver-scaleway/template'
-    });
-    set(this,'layout', template);
-
-    this._super(...arguments);
-
-  },
-  /*!!!!!!!!!!!DO NOT CHANGE END!!!!!!!!!!!*/
 
     regions: [{
-        id: 'par1',
-        location: 'Paris (par1)'
-      },
-      {
-        id: 'ams1',
-        location: 'Amsterdam (ams1)'
-      }
-    ],
+      id: 'par1',
+      location: 'Paris (par1)'
+    }, {
+      id: 'ams1',
+      location: 'Amsterdam (ams1)'
+    }],
 
-    // Write your component here, starting with setting 'model' to a machine with your config populated
-    bootstrap: function() {
-      let config = get(this, 'globalStore').createRecord({
-        type: 'scalewayConfig',
+    bootstrap: function bootstrap() {
+      var config = get(this, 'globalStore').createRecord({
+        type: 'skelConfig',
         commercialType: '',
         region: '',
         name: '',
@@ -67,56 +55,52 @@ export default Ember.Component.extend(NodeDriver, {
         bootscript: ''
       });
 
-      set(this, 'model.scalewayConfig', config);
+      set(this, 'model.skelConfig', config);
     },
 
-    // Add custom validation beyond what can be done from the config API schema
-    validate() {
-      // Get generic API validation errors
+    validate: function validate() {
       this._super();
-      var errors = get(this, 'errors')||[];
-      if ( !get(this, 'model.name') ) {
+      var errors = get(this, 'errors') || [];
+      if (!get(this, 'model.name')) {
         errors.push('Name is required!');
       }
 
-      // Add more specific errors
-      if (!get(this, 'config.organization') ) {
+      if (!get(this, 'config.organization')) {
         errors.push('Organization ID is required!');
       }
 
-      if (!get(this, 'config.token') ) {
+      if (!get(this, 'config.token')) {
         errors.push('API Token is required!');
       }
 
-      if (!get(this, 'config.commercialType') ) {
+      if (!get(this, 'config.commercialType')) {
         errors.push('Instance Type is required!');
       }
 
-      if (!get(this, 'config.image') ) {
+      if (!get(this, 'config.image')) {
         errors.push('Image is required!');
       }
 
-      // Set the array of errors for display,
-      // and return true if saving should continue.
-      if ( get(errors, 'length') )
-      {
+      if (get(errors, 'length')) {
         set(this, 'errors', errors);
         return false;
-      }
-      else
-      {
+      } else {
         set(this, 'errors', null);
         return true;
       }
-    },
-    //Any computed properties or custom logic can go here
+    }
   });
-});
-;
-export { default } from 'nodes/components/driver-scaleway/component';
-;
-define("shared/components/node-driver/driver-scaleway/template",["exports"],function(exports){
+});;
+define('ui/components/driver-skel/component', ['exports', 'nodes/components/driver-skel/component'], function (exports, _component) {
+  'use strict';
 
-exports["default"] = Ember.HTMLBars.template({"id":"hx3/UB9U","block":"{\"symbols\":[\"al\",\"expandFn\"],\"statements\":[[6,\"section\"],[10,\"class\",\"horizontal-form\"],[8],[0,\"\\n\"],[4,\"accordion-list\",null,[[\"showExpandAll\"],[false]],{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",\"over-hr mb-20\"],[8],[6,\"span\"],[8],[1,[20,\"driverOptionsTitle\"],false],[9],[9],[0,\"\\n\\n\"],[4,\"accordion-list-item\",null,[[\"title\",\"detail\",\"expandAll\",\"expand\",\"expandOnInit\"],[\"API Access\",\"\",[22,[\"expandAll\"]],[26,\"action\",[[21,0,[]],[21,2,[]]],null],true]],{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Organization ID\"],[1,[20,\"field-required\"],false],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"value\"],[\"text\",\"form-control\",[22,[\"config\",\"organization\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"API Token\"],[1,[20,\"field-required\"],false],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"value\"],[\"password\",\"form-control\",[22,[\"config\",\"token\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"accordion-list-item\",null,[[\"title\",\"detail\",\"expandAll\",\"expand\",\"expandOnInit\"],[\"Instance\",\"\",[22,[\"expandAll\"]],[26,\"action\",[[21,0,[]],[21,2,[]]],null],true]],{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Region\"],[9],[0,\"\\n          \"],[1,[26,\"new-select\",null,[[\"class\",\"content\",\"optionLabelPath\",\"optionValuePath\",\"value\"],[\"form-control\",[22,[\"regions\"]],\"location\",\"id\",[22,[\"config\",\"region\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Name\"],[9],[0,\"\\n          \"],[1,[26,\"input\",[[22,[\"input\"]]],[[\"type\",\"class\",\"value\"],[\"text\",\"form-control\",[22,[\"config\",\"name\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Type\"],[1,[20,\"field-required\"],false],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"placeholder\",\"value\"],[\"text\",\"form-control\",\"START1-XS\",[22,[\"config\",\"commercialType\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Image\"],[1,[20,\"field-required\"],false],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"placeholder\",\"value\"],[\"text\",\"form-control\",\"ubuntu-xenial\",[22,[\"config\",\"image\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n    \\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Additional Volumes\"],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"placeholder\",\"value\"],[\"text\",\"form-control\",\"50G\",[22,[\"config\",\"volumes\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Bootscript\"],[9],[0,\"\\n           \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"placeholder\",\"value\"],[\"text\",\"form-control\",\"docker\",[22,[\"config\",\"bootscript\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \\n\"],[4,\"accordion-list-item\",null,[[\"title\",\"detail\",\"expandAll\",\"expand\",\"expandOnInit\"],[\"Network\",\"\",[22,[\"expandAll\"]],[26,\"action\",[[21,0,[]],[21,2,[]]],null],true]],{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"IP Address\"],[9],[0,\"\\n           \"],[1,[26,\"input\",null,[[\"type\",\"class\",\"value\"],[\"text\",\"form-control\",[22,[\"config\",\"ip\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"IPv6\"],[9],[0,\"\\n           \"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"config\",\"ipv6\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"accordion-list-item\",null,[[\"title\",\"detail\",\"expandAll\",\"expand\",\"expandOnInit\"],[\"Debug\",\"\",[22,[\"expandAll\"]],[26,\"action\",[[21,0,[]],[21,2,[]]],null],false]],{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"col span-6\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"class\",\"acc-label\"],[8],[0,\"Enable Debugging\"],[9],[0,\"\\n          \"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"config\",\"debug\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[0,\"    \"],[6,\"div\"],[10,\"class\",\"over-hr\"],[8],[6,\"span\"],[8],[1,[20,\"templateOptionsTitle\"],false],[9],[9],[0,\"\\n\\n    \"],[1,[26,\"form-name-description\",null,[[\"model\",\"nameRequired\"],[[22,[\"model\"]],true]]],false],[0,\"\\n\\n    \"],[1,[26,\"form-user-labels\",null,[[\"initialLabels\",\"setLabels\",\"expandAll\",\"expand\"],[[22,[\"labelResource\",\"labels\"]],[26,\"action\",[[21,0,[]],\"setLabels\"],null],[22,[\"expandAll\"]],[26,\"action\",[[21,0,[]],[21,2,[]]],null]]]],false],[0,\"\\n\\n    \"],[1,[26,\"form-engine-opts\",null,[[\"machine\",\"showEngineUrl\"],[[22,[\"model\"]],[22,[\"showEngineUrl\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"\\n\"],[0,\"  \"],[1,[26,\"top-errors\",null,[[\"errors\"],[[22,[\"errors\"]]]]],false],[0,\"\\n\\n\"],[0,\"  \"],[1,[26,\"save-cancel\",null,[[\"save\",\"cancel\"],[\"save\",\"cancel\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}","meta":{}});;
-
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _component.default;
+    }
+  });
 });
